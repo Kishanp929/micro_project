@@ -1,0 +1,164 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity alu_beh is
+generic(
+operand_width : integer:=4);
+port (
+A: in std_logic_vector(operand_width-1 downto 0);
+B: in std_logic_vector(operand_width-1 downto 0);
+op: out std_logic_vector(5 downto 0)) ;
+
+end alu_beh;
+
+architecture a1 of alu_beh is
+
+
+
+
+
+function max(A: in std_logic_vector(operand_width-1 downto 0);
+B: in std_logic_vector(operand_width-1 downto 0))
+return std_logic_vector is
+ 
+ variable max2 : std_logic_vector(3 downto 0);
+-- Declare "sum" and "carry" variable
+-- you can use aggregate to initialize the variables as shown below
+-- variable variable_name : std_logic_vector(3 downto 0) := (others => '0');
+begin
+
+L1 : for i in 3 to 0 loop
+      if A(i) > B(i) then
+		L2 :for j in 3 to 0 loop
+	     max2(j) := A(j);
+		 end loop L2;
+		 end loop L1 ;
+	elsif B(i) > A(i) then 
+    L3 : for k in 3 to 0 loop
+	   max2(k) := B(k);
+	   end loop L3	;
+		end loop L1 ;
+		elsif A(0) := B(0) then
+	L4: for t in 3 to 0 loop
+	max2(t) := '0';
+	end loop L4 ;
+	
+end loop L1 ;
+		end if;
+-- write logic for addition
+-- Hint: Use for loop
+return max2; --according to your logic you can change what you want to return
+end max;
+
+
+
+
+
+
+
+function andy(A: in std_logic_vector(operand_width-1 downto 0);
+B: in std_logic_vector(operand_width-1 downto 0))
+return std_logic_vector is
+ 
+ variable andy1 : std_logic_vector(3 downto 0);
+-- Declare "sum" and "carry" variable
+-- you can use aggregate to initialize the variables as shown below
+-- variable variable_name : std_logic_vector(3 downto 0) := (others => '0');
+begin
+
+L1 : for i in 0 to 3 loop
+        andy1(i) := A(i) and B(i) ; 
+-- write logic for addition
+-- Hint: Use for loop
+return andy; --according to your logic you can change what you want to return
+end andy;
+
+
+
+
+
+
+
+function multiy(A: in std_logic_vector(operand_width-1 downto 0);)
+return std_logic_vector is
+ 
+ variable carrymul : std_logic_vector(4 downto 0);
+ variable addmul : std_logic_vector(4 downto 0);
+-- Declare "sum" and "carry" variable
+-- you can use aggregate to initialize the variables as shown below
+-- variable variable_name : std_logic_vector(3 downto 0) := (others => '0');
+begin
+ 
+L1 : for i in 0 to 3 loop
+        if i=0 then
+         addmul(i) := A(i) xor '0';
+			carrymul(i) := A(i) and '0';
+		else
+		  addmul(i) := A(i) xor A(i-1) xor carrymul(i-1);
+		  carrymul(i) := (A(i) and A(i-1)) or (carrymul(i-1) and (A(i) xor A(i-1)) )
+		end if;  
+		end loop L1;
+addmul(4) := A(3) xor carrymul(3);
+carrymul(4) := A(3) and carrymul(3);
+	   	
+-- write logic for addition
+-- Hint: Use for loop
+return carrymul(4) & addmul; --according to your logic you can change what you want to return
+end multiy;
+
+
+
+
+
+
+
+function eq(A: in std_logic_vector(operand_width-1 downto 0);)
+return std_logic_vector is
+ 
+ variable equ : std_logic_vector(4 downto 0);
+ 
+-- Declare "sum" and "carry" variable
+-- you can use aggregate to initialize the variables as shown below
+-- variable variable_name : std_logic_vector(3 downto 0) := (others => '0');
+begin
+ 
+L1 : for i in 0 to 3 loop
+       if A(i) := B(i)	  
+	
+		end loop L1;
+		
+		
+		
+addmul(4) := A(3) xor carrymul(3);
+carrymul(4) := A(3) and carrymul(3);
+	   	
+-- write logic for addition
+-- Hint: Use for loop
+return carrymul(4) & addmul; --according to your logic you can change what you want to return
+end multiy;
+
+
+
+
+
+
+
+begin
+alu : process( A, B)
+variable sel : std_logic_vector(1 downto 0);
+--declare other variables
+begin
+-- complete VHDL code for various outputs of ALU based on select lines
+sel := ---;
+case sel is
+when "00" =>
+-- Hint: use if/else statement
+--
+-- add function usage :
+-- signal_name <= add(A,B)
+-- variable_name := add(A,B)
+--
+-- concatenate operator usage:
+-- "0000"&A
+end process ; -- alu
+end a1 ; -- a1

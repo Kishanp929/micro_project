@@ -1,0 +1,70 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity IF_Stage is
+    port(
+        CLK, RST: in std_logic;
+        PC_WREN: in std_logic;
+        PC_IN: in std_logic_vector(15 downto 0);
+		  inst_out : out std_logic_vector(15 downto 0);
+		  X_out : out std_logic_vector(15 downto 0);
+    );
+end entity;
+
+
+architecture behav of IF_Stage is
+
+component xreg_IF_ID is
+  port(inp : in std_logic_vector(15 downto 0);
+       clk : in std_logic;
+       op  : out std_logic_vector(15 downto 0));
+end component;
+
+component IR_IF_ID is
+  port(inp : in std_logic_vector(15 downto 0);
+       clk : in std_logic;
+       op  : out std_logic_vector(15 downto 0));
+end component;
+
+
+
+    component inst_mem is
+port (
+	
+      inst_mem_a : in std_logic_vector(15 downto 0);
+		rd_en: in std_logic;
+	 clk : in std_logic;
+		inst_out : out std_logic_vector(15 downto 0));
+end component inst_mem;
+    end component;
+
+  component PC_reg is
+  port(inp : in std_logic_vector(15 downto 0);
+       PC_wr_en : in std_logic ;
+       clk : in std_logic;
+       op  : out std_logic_vector(15 downto 0));
+end component PC_reg;
+
+component Add16 is 
+port( inp1 : in std_logic_vector(15 downto 0);
+      inp2 : in std_logic_vector(15 downto 0);
+		sum : out std_logic_vector(15 downto 0);
+    cout : out std_logic);
+end component Add16;
+
+
+
+    signal pc_out, mem_out: std_logic_vector(15 downto 0);
+	 signal pc_in std_logic_vector(15 downto 0);
+	 signal xyz std_logic;
+begin
+    
+    IM1: inst_mem port map( inst_mem_a => pc_out,  '1'  ,  clk => CLK  ,inst_out => mem_out );
+	 ADD166 : Add16 port map ( PC_out , '0000000000000010' , pc_in , xyz );
+	 PC: PC_reg port map(inp => pc_in , PC_wr_en => PC_WREN, clk => CLK, op => PC_out);
+	 --PC2 : PC_reg 
+	 inst_regy : IR_IF_ID port map (mem_out , CLK , inst_out);
+	 XXX : xreg_IF_ID port map (PC_out , CLK ,X_out );
+    
+end;
