@@ -1,1 +1,1 @@
-#EE 309 This is an Pipelined Architecture, Implemented in the course Microprocessor.
+#EE 309 This is an Pipelined Architecture of IITB RISC with Defined ISA, Implemented in the course Microprocessor.
